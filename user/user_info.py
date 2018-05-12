@@ -21,8 +21,9 @@ class UserInfoHandler(BaseHandler):
         conn = await get_db()
         try:
             cur = conn.cursor()
-            await cur.execute('select name, sex, email, city from user'
-                              'where id={}'.format(id))
+            sql = 'select name, sex, email, city, imgUrl from user' \
+                  'where id={}'
+            await cur.execute(sql.format(id))
             r1 = cur.fetchone()
 
             await cur.execute('select job, date from identity where'

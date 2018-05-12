@@ -14,6 +14,7 @@ from utils import md5, get_db
 
 class LoginHandler(BaseHandler):
     '''登录请求handler
+    处理/login请求
     '''
     async def get(self):
         self.render('login.html')
@@ -22,10 +23,7 @@ class LoginHandler(BaseHandler):
         data = self.request.body.decode()
         data = ast.literal_eval(data)
         response = await self.authenticate(data)
-        if response['result'] is True:
-            self.render('/')
-        else:
-            self.finish(json.dumps(response, ensure_ascii=False))
+        self.finish(json.dumps(response, ensure_ascii=False))
 
     async def authenticate(self, data):
         '''检验用户名与密码
@@ -33,14 +31,14 @@ class LoginHandler(BaseHandler):
         conn = await get_db()
         cur = conn.cursor()
         await cur.execute("select `password` from `user` where `name`=%s",
-                          data['name'])
+                          data['username'])
         r = cur.fetchone()
         cur.close()
         conn.close()
-        password = md5(data['pass'])
+        password = md5(data['Password'])
         if not r:
-            return {'result': 'user not exist'}
+            return {'status': 'user not exist'}
         if r[0] == password:
-            return {'result': True}
+            return {'status': '1'}
         else:
-            return {'result': 'wrong password'}
+            return {'status': 'wrong password'}

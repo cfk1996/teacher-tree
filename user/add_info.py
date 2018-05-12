@@ -35,7 +35,7 @@ class AddInfoHandler(BaseHandler):
                         'link': r[7]}
         except DatabaseError as e:
             print(e)
-            response = {'info': 'database error'}
+            response = {'status': 'database error'}
         finally:
             cur.close()
             conn.close()
@@ -57,7 +57,7 @@ class AddInfoHandler(BaseHandler):
                                                       data['email'],
                                                       data['city'],
                                                       int(data['id'])))
-            response = {'status': 'success'}
+            response = {'status': '1'}
         except DatabaseError as e:
             print(e)
             response = {'status': 'database error'}

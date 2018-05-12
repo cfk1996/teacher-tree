@@ -31,7 +31,7 @@ class AddIdentityHandler(BaseHandler):
                                   'value ({}, {}, {})'.format(data['id'],
                                                               job['identity'],
                                                               job['date']))
-            response = {'status': 'success'}
+            response = {'status': '1'}
         except DatabaseError as e:
             print(e)
             response = {'status': 'database error'}

@@ -24,10 +24,20 @@ class RelationHandler(BaseHandler):
         conn = await get_db()
         try:
             cur = conn.cursor()
+            sql = 'select name from user where id={}'
+            await cur.execute(sql.format(data['id']))
+            r = cur.fetchone()
+            stu_name = r[0]
             for tech in data['teacher']:
-                await cur.execute('insert into relation(tea_id, stu_id)'
-                                  'values ({}, {})'.format(tech, data['id']))
-            response = {'status': 'success'}
+                sql = 'select imgUrl from user where id={}'
+                await cur.execute(sql.format(tech['id']))
+                r = cur.fetchone()
+                sql = 'insert into relation(tea_id, t_name, stu_id,' \
+                      't_imgurl, stu_name) values ({}, {}, {}, {}, {})'
+                await cur.execute(sql.format(tech['id'], tech['name'],
+                                             data['id'], r[0] or ' ',
+                                             stu_name))
+            response = {'status': '1'}
         except DatabaseError as e:
             print(e)
             response = {'status': 'database error'}

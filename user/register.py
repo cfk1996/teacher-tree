@@ -11,7 +11,7 @@ from tornado_mysql import DatabaseError
 
 
 class RegisterHandler(BaseHandler):
-    '''处理/register请求
+    '''处理/newUser请求
     GET: 返回注册页面
     POST: 注册账户
     '''
@@ -25,15 +25,15 @@ class RegisterHandler(BaseHandler):
         self.finish(json.dumps(response, ensure_ascii=False))
 
     async def register(self, data):
-        password = md5(data['pass'])
+        password = md5(data['Password'])
         conn = await get_db()
         cur = conn.cursor()
         try:
             await cur.execute("insert into `user`(phone, password) values ({}, \
-                               {})".format(data['phone'], password))
-            response = {'info': 'success'}
+                               {})".format(data['username'], password))
+            response = {'status': '1'}
         except DatabaseError as e:
-            response = {'info': 'Name already exists!'}
+            response = {'status': 'Name already exists!'}
             print(e)
         finally:
             cur.close()
