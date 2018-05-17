@@ -1,0 +1,269 @@
+//新建表单页面
+
+post /myinfo
+
+{"name":"彭一","sex":"女","email":"123@qq.com","city":"重庆","id":"123"}
+
+返回数据：{"status":1}//成功
+
+{"status":"失败原因"}//失败
+
+post /identity
+
+{"job":[{"identity":"学生","date":2018},{"identity":"教师","date":2018}],"id":"123"}
+
+返回数据：{"status":1}//成功
+
+{"status":"失败原因"}//失败
+
+post /teachers
+
+{"teacher":[{"id":"123","name":"王伟"},{"id":"1903","name":"李丽丽"}],"id":"123"}
+
+{"teacher":[{"id":"1223","name":"王宇","imgUrl":"wangyu"},{"id":"111","name":"彭于晏","imgUrl":"pengyuyan"}],"id":"243242"} //说明: teachers数组中是各个老师的id号码
+
+返回数据：{"status":1}//成功
+
+{"status":"失败原因"}//失败
+
+post /upload
+
+说明：发送过来的数据是图片
+
+{"data":"" //是处理图片之后的数据Js代码是FormData(数据)
+
+"headers": { 'Content-Type': 'multipart/form-data' }
+
+"id":"14343"
+
+}
+
+返回数据：{"newPath":xxx} //图片上传之后的地址
+
+//get /settings?id=”17863127853”
+
+返回数据:
+
+{"name":"彭一",
+
+"sex":"女",
+
+"email":"123@qq.com",
+
+"city":"重庆",
+
+“imgUrl”:xxx //图片上传之后的地址
+
+"job": [{"identity":"学生","date":2018},{"identity":"教师","date":2018}],
+
+"teacherList":[{"id":"1223","name":"王宇","imgUrl":"gegewe.png"},{"id":"111","name":"彭于晏","imgUrl":"xxx.png"}]
+
+}
+
+//teacherList代表所有的老师，忘了加上已经选择的老师
+
+{"name":"彭一",
+
+"sex":"女",
+
+"email":"123@qq.com",
+
+"city":"重庆",
+
+"imgUrl":"xxx",
+
+"job": [{"identity":"学生","date":2018},{"identity":"教师","date":2018}],
+
+"teacherList":[{"id":"1223","name":"王宇","imgUrl":"王宇照片"},{"id":"111","name":"彭于晏","imgUrl":"彭于晏的照片"}],
+
+"pickTeachers":[{"id":"1223","name":"王宇","imgUrl":"王宇照片"},{"id":"111","name":"彭于晏","imgUrl":"彭于晏的照片"}]
+
+}
+
+Ps.没有信息的时候
+
+{"name":"",
+
+"sex":"",
+
+"email":" ",
+
+"city":"",
+
+"imgUrl":"",
+
+"job": []
+
+"teacherList":[{"id":"1223","name":"王宇","imgUrl":"王宇照片"},{"id":"111","name":"彭于晏","imgUrl":"彭于晏的照片"}],
+
+"pickTeachers":[]
+
+}
+
+//登录注册页面
+
+//说明：注册界面
+
+Post /newUser
+
+{"username":"2333333",
+
+"Password": "密码"
+
+};
+
+返回数据： {"status":1} //成功
+
+{"status":“失败原因”} //失败
+
+Post /login
+
+{"username":"2333333",
+
+"Password": "密码"
+
+};
+
+返回数据： {"status":1} //成功
+
+{"status":“失败原因”} //失败
+
+//构建关系树
+
+//说明：默认是学生身份
+
+get /relationTree?id=”123”
+
+{
+
+"data":[{"teacherId":"123","teacherName":"张岩", "older":[{"id":"111","name":"王大陆"},
+
+{"id":"10991","name":"张海洋"}], //学长学姐
+
+"peers":[{"id":"111","name":"王大陆"},
+
+{"id":"10991","name":"张海洋"}], //同级
+
+"younger":[{"id":"111","name":"王大陆"},
+
+{"id":"10991","name":"张海洋"}], //学弟学妹的清单
+
+}]
+
+｝
+
+//没有学生身份
+
+{“data”:”null”
+
+}
+
+//教师身份:
+
+get /relationTeacherTree?id=”123”
+
+{“data":["2015":[{"id":"111","name":"王大陆"},
+
+{"id":"10991","name":"张海洋"}], //2015级入学学生清单
+
+"2013":[{"id":"111","name":"王大陆"},
+
+{"id":"10991","name":"张海洋"}], //2013级
+
+"2000":[{"id":"111","name":"王大陆"},
+
+{"id":"10991","name":"张海洋"}], //2000级别
+
+]
+
+}
+
+//没有教师身份
+
+{“data”:”null”
+
+}
+
+//查询基础信息
+
+get /infomation?name=”王伟”
+
+{"data": [{ "name":"123",
+
+"sex":"女",
+
+"email":"123@qq.com",
+
+"city":"重庆",
+
+"imgUrl": "xxx.png",
+
+"id":"242342"
+
+},
+
+{ "name":"123",
+
+"sex":"男",
+
+"email":"10i39rq32@qq.com",
+
+"city":"沈阳",
+
+"imgUrl": "xxx.png",
+
+"id":"242342"
+
+}]}
+
+//增加/删除学生
+
+//删除学生
+
+get /deleteStudentList?teacherId=”11111”&year=”2015”
+
+{"data":[{ "name":"付丽",
+
+"imgUrl": "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1526308240680&di=2968b6db7e5658889056409feca3af9d&imgtype=0&src=http%3A%2F%2Fimg.zcool.cn%2Fcommunity%2F0104b4575274ce6ac72525aec3c290.png%401280w_1l_2o_100sh.png",
+
+"id":"2442"
+
+},
+
+{ "name":"彭一",
+
+"imgUrl": "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1526308240680&di=4fb31cf978d9127c07bfddf42cc9d67e&imgtype=0&src=http%3A%2F%2Fimg.zcool.cn%2Fcommunity%2F01e8a157f86d8ca84a0d304fcb9943.jpg%402o.jpg",
+
+"id":"242342"
+
+}]}
+
+post /deleteTeacher
+
+{"student":[{"id":"2442","name":"付丽"},{"id":"242342","name":"彭一"}],"id":"1111"}
+
+//增加学生
+
+get /studentsList?Year =”2015” //查询入学年份为2015年的所有学生
+
+{"data":[{ "name":"付丽",
+
+"imgUrl": "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1526308240680&di=2968b6db7e5658889056409feca3af9d&imgtype=0&src=http%3A%2F%2Fimg.zcool.cn%2Fcommunity%2F0104b4575274ce6ac72525aec3c290.png%401280w_1l_2o_100sh.png",
+
+"id":"2442"
+
+},
+
+{ "name":"彭一",
+
+"imgUrl": "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1526308240680&di=4fb31cf978d9127c07bfddf42cc9d67e&imgtype=0&src=http%3A%2F%2Fimg.zcool.cn%2Fcommunity%2F01e8a157f86d8ca84a0d304fcb9943.jpg%402o.jpg",
+
+"id":"242342"
+
+}]}
+
+Post /addTeacher
+
+{"student":[{"id":"2442","name":"付丽"},{"id":"242342","name":"彭一"}],"id":"1111"}
+
+//student是学生列表，然后id是教师的id

@@ -22,14 +22,15 @@ class InfoHandler(BaseHandler):
         conn = await get_db()
         try:
             cur = conn.cursor()
-            sql = 'select name, sex, email, city from user where ' \
-                  'name={}'
+            sql = 'select name, sex, email, city, imgUrl, id from user ' \
+                  'where name={}'
             await cur.execute(sql.format(name))
             r = cur.fetcheall()
             response = {'data': []}
             for m in r:
                 response['data'].append({'name': m[0], 'sex': m[1],
-                                         'email': m[2], 'city': m[3]})
+                                         'email': m[2], 'city': m[3],
+                                         'imgUrl': m[4], 'id': m[5]})
         except DatabaseError as e:
             print(e)
             response = {'status': 'database error'}

@@ -21,6 +21,7 @@ class UserInfoHandler(BaseHandler):
         conn = await get_db()
         try:
             cur = conn.cursor()
+            # 个人信息
             sql = 'select name, sex, email, city, imgUrl from user' \
                   'where id={}'
             await cur.execute(sql.format(id))
@@ -32,17 +33,29 @@ class UserInfoHandler(BaseHandler):
             job_list = []
             for data in r2:
                 job_list.append({'identity': data[0], 'date': data[1]})
-
+            # 已建立的老师关系
             await cur.execute('select tea_id, t_name, t_imgurl from'
                               'relation where stu_id={}'.format(id))
             r3 = cur.fetchall()
-            teacher_list = []
+            pickTeachers = []
             for data in r3:
-                teacher_list.append({'id': data[0], 'name': data[1],
+                pickTeachers.append({'id': data[0], 'name': data[1],
                                      'imgUrl': data[2]})
+            # 所有老师
+            teacherList = []
+            sql = 'select user_id from identity where job={}'
+            await cur.execute(sql.format('教师'))
+            r4 = cur.fetchall()
+            for data in r4:
+                sql = 'select name, imgUrl from user where id={}'
+                await cur.execute(sql.format(data[0]))
+                r5 = cur.fetchone()
+                teacherList.append({'id': data[0], 'name': r5[0],
+                                    'imgUrl': r5[1]})
             response = {'name': r1[0], 'sex': r1[1], 'email': r1[2],
                         'city': r1[3], 'job': job_list,
-                        'teacherList': teacher_list}
+                        'teacherList': teacherList,
+                        'pickTeachers': pickTeachers}
         except DatabaseError as e:
             print(e)
             response = {'status': 'database error'}

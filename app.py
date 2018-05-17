@@ -16,6 +16,8 @@ from user.upload_pic import UploadPicHandler
 from user.user_info import UserInfoHandler
 from relations.stu_tree import StuTreeHandler
 from relations.teach_tree import TeachTreeHandler
+from relations.add_stu import AddStuHandler
+from relations.delete_stu import DeleteStuHandler
 
 
 class Application(tornado.web.Application):
@@ -33,7 +35,9 @@ class Application(tornado.web.Application):
             (r"/upload", UploadPicHandler),
             (r"/settings", UserInfoHandler),
             (r"/relationTree", StuTreeHandler),
-            (r"realtionTeacherTree", TeachTreeHandler)
+            (r"realtionTeacherTree", TeachTreeHandler),
+            (r"/addTeacher", AddStuHandler),
+            (r"/deleteStudentList", DeleteStuHandler), 
             # (r"/register", RegisterHandler),
         ]
         settings = dict(
